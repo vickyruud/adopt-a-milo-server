@@ -6,12 +6,13 @@ const router = express.Router();
 
 const { signup, signin } = require('../controllers/authController');
 
+//routes for sign in and sign up
 router.post('/signup', signup);
 router.post('/signin', signin);
 
 
 router.get('user/users', (req, res, next) => {
-  // This will return all recipes
+  // This will return all users
   User.find({})
     .then((data) => {
       res.json(data)

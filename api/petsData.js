@@ -9,9 +9,9 @@ const secret = process.env.API_SECRET
 let accessToken = ''
 
 
-
+//gets the access token
 const getToken = () => {  
-  axios.post("https://api.petfinder.com/v2/oauth2/token", {
+  return axios.post("https://api.petfinder.com/v2/oauth2/token", {
   // eslint-disable-next-line @typescript-eslint/camel case
   client_id: clientId,
   // eslint-disable-next-line @typescript-eslint/camel case
@@ -19,25 +19,18 @@ const getToken = () => {
   // eslint-disable-next-line @typescript-eslint/camel case
   grant_type: "client_credentials"
 }).then(res => {
-  accessToken = res.data.access_token;
+  return  res.data.access_token;
 
 }).catch(error => {
   console.log(error);
 })
 }
 
-
-
-const getData = () => {
-  console.log(accessToken)
-
-  if (!accessToken) {
-    getToken();
-  }
- 
-  axios
+//gets animal data with the access token
+const getAnimals = (token) => {
+ return axios
   .get("https://api.petfinder.com/v2/animals", {
-    headers: { Authorization: `Bearer ${accessToken}` }
+    headers: { Authorization: `Bearer ${token}` }
   })
   .then((response) => {
          return response.data.animals
@@ -45,11 +38,28 @@ const getData = () => {
   })
   .catch((error) => {
       console.error(error);
-    });
+  });
+}
+
+
+//gets the animals data after obtaining a token
+const getData = () => {
+
+  return getToken().then(res => {
+    return getAnimals(res).then(response => {
+     return response
+   })
+ })
+
+ 
     
 }
-router.get('/dogs', (req, res, next) => {
-  getData()
+
+
+router.get('/animals', (req, res, next) => {
+  getData().then(response => {
+    res.send(response);
+  })
 });
 
 module.exports = router;

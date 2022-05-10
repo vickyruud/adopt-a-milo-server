@@ -55,7 +55,7 @@ const getData = () => {
     
 }
 
-
+//route to pull all available animals
 router.get('/animals', (req, res, next) => {
   getData().then(response => {
     res.send(response);

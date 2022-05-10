@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const user = require('./api/user');
 const petData = require('./api/petsData');
 
-
+//required to read .env file
 require('dotenv').config();
 
 const app = express();
@@ -23,7 +23,9 @@ mongoose
 // Since mongoose's Promise is deprecated, we override it with Node's Promise
 mongoose.Promise = global.Promise;
 
+//user routes
 app.use('/api/user', user);
+//adoption data routes
 app.use('/api/pet', petData);
 
 

@@ -10,7 +10,7 @@ router.post('/signup', signup);
 router.post('/signin', signin);
 
 
-router.get('/users', (req, res, next) => {
+router.get('user/users', (req, res, next) => {
   // This will return all recipes
   User.find({})
     .then((data) => {

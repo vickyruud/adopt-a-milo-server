@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const user = require('./api/user');
+const petData = require('./api/petsData');
+
 
 require('dotenv').config();
 
@@ -21,7 +23,9 @@ mongoose
 // Since mongoose's Promise is deprecated, we override it with Node's Promise
 mongoose.Promise = global.Promise;
 
-app.use('/api', user);
+app.use('/api/user', user);
+app.use('/api/pet', petData);
+
 
 
 app.use((req, res, next) => {
